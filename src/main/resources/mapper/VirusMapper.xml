@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.casleuth.casleuthbackend.mapper.VirusMapper">
+    <select id="selectPage" resultType="com.casleuth.casleuthbackend.entity.virus">
+        select  * from virus where organism_name like concat('%',#{name},'%') limit #{pageNum},#{pageSize}
+    </select>
+    <select id="selectTotalNum" resultType="int">
+        select  count(*) from virus where organism_name like concat('%',#{name},'%')
+    </select>
+    <select id="selectVirusById" resultType="com.casleuth.casleuthbackend.entity.virus">
+        select  * from virus where virus_id=#{virusId}
+    </select>
+    <select id="selectAccession" resultType="string">
+        select  accession from virus where virus_id=#{virusId}
+    </select>
+</mapper>
