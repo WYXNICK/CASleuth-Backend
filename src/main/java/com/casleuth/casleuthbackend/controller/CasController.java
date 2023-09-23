@@ -42,6 +42,7 @@ public class CasController {
         HashMap<String,Object> result=new HashMap<>();
         result.put("accession",accession);
         result.put("cas_num",casList.size());
+        result.put("sequence",sequence);
 
         int order=1;
         for(cas_model cas : casList){
@@ -51,10 +52,12 @@ public class CasController {
             cas1.put("score",cas.getScore());
             cas1.put("order",order);
             cas1.put("model_type",type);
-            int index = sequence.indexOf(cas.getGuideSeq());
+            int index = cas.getIndex();
             if (index != -1) {
                 // 如果找到了子字符串
                 String beforeSeq = sequence.substring(0, index); // 获取子字符串之前的所有字符串
+                String showSeq=sequence.substring(index,index+cas.getGuideSeq().length());
+                cas1.put("show_seq",showSeq);
                 String afterSeq = sequence.substring(index + cas.getGuideSeq().length()); // 获取子字符串之后的所有字符串
                 cas1.put("before_seq",beforeSeq);
                 cas1.put("after_seq",afterSeq);
@@ -64,8 +67,17 @@ public class CasController {
                 cas1.put("status",false);
             }
             casresult.add(cas1);
+            order++;
         }
-        result.put("cas_result",casresult);
+        //筛选掉完全相同的记录
+        List<HashMap<String, Object>> uniqueCasResult = new ArrayList<>();
+        for (HashMap<String, Object> hashMap : casresult) {
+            // 检查每一个HashMap是否在uniqueCasResult中已存在
+            if (!uniqueCasResult.contains(hashMap)) {
+                uniqueCasResult.add(hashMap);
+            }
+        }
+        result.put("cas_result",uniqueCasResult);
         return result;
     }
 }
