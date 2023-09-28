@@ -16,4 +16,8 @@ public interface VirusMapper {
     virus selectVirusById(int virusId);
 
     String selectAccession(int virusId,String type);
+
+    List<virus> selectAllVirusByName(String name);
+
+    List<virus> selectSomeVirusByName(String name,int num);
 }

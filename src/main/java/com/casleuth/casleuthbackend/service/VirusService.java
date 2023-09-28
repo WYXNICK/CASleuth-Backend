@@ -28,4 +28,11 @@ public class VirusService {
        return virusMapper.selectAccession(virusId,type);
     }
 
+    public List<virus> selectAllVirusByName(String name) {
+       return virusMapper.selectAllVirusByName(name);
+    }
+
+    public List<virus> selectSomeVirusByName(String name, int num) {
+       return virusMapper.selectSomeVirusByName(name,num);
+    }
 }

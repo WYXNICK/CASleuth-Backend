@@ -128,6 +128,96 @@ public class ExcelController {
         workbook.close();
     }
 
+    @GetMapping("/virusList-to-excel/all")
+    public void virusListAllExportToExcel(HttpServletResponse response, @RequestParam String name) throws IOException {
+        // 创建一个新的工作簿
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Data");
+
+        // 创建标题行
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("Accession");
+        headerRow.createCell(1).setCellValue("Organism_Name");
+        headerRow.createCell(2).setCellValue("Isolate");
+        headerRow.createCell(3).setCellValue("Species");
+        headerRow.createCell(4).setCellValue("Family");
+        headerRow.createCell(5).setCellValue("Length");
+        headerRow.createCell(6).setCellValue("Segment");
+        headerRow.createCell(7).setCellValue("Geo_Location");
+        headerRow.createCell(8).setCellValue("Host");
+        headerRow.createCell(9).setCellValue("Sequence");
+        headerRow.createCell(10).setCellValue("Type");
+        int rowNum = 1;
+        List<virus> virusList=virusService.selectAllVirusByName(name);
+        for(virus v1 : virusList) {
+            // 填充数据行
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(v1.getAccession());
+            row.createCell(1).setCellValue(v1.getOrganismName());
+            row.createCell(2).setCellValue(v1.getIsolate());
+            row.createCell(3).setCellValue(v1.getSpecies());
+            row.createCell(4).setCellValue(v1.getFamily());
+            row.createCell(5).setCellValue(v1.getLength());
+            row.createCell(6).setCellValue(v1.getSegment());
+            row.createCell(7).setCellValue(v1.getGeoLocation());
+            row.createCell(8).setCellValue(v1.getHost());
+            row.createCell(9).setCellValue(v1.getSequence());
+            row.createCell(10).setCellValue(v1.getVirusType());
+        }
+        // 设置响应头
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=virus_list_all.xlsx");
+
+        // 将工作簿写入响应流
+        workbook.write(response.getOutputStream());
+        workbook.close();
+    }
+
+    @GetMapping("/virusList-to-excel/some")
+    public void virusListSomeExportToExcel(HttpServletResponse response, @RequestParam String name,@RequestParam int num) throws IOException {
+        // 创建一个新的工作簿
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Data");
+
+        // 创建标题行
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("Accession");
+        headerRow.createCell(1).setCellValue("Organism_Name");
+        headerRow.createCell(2).setCellValue("Isolate");
+        headerRow.createCell(3).setCellValue("Species");
+        headerRow.createCell(4).setCellValue("Family");
+        headerRow.createCell(5).setCellValue("Length");
+        headerRow.createCell(6).setCellValue("Segment");
+        headerRow.createCell(7).setCellValue("Geo_Location");
+        headerRow.createCell(8).setCellValue("Host");
+        headerRow.createCell(9).setCellValue("Sequence");
+        headerRow.createCell(10).setCellValue("Type");
+        int rowNum = 1;
+        List<virus> virusList=virusService.selectSomeVirusByName(name,num);
+        for(virus v1 : virusList) {
+            // 填充数据行
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(v1.getAccession());
+            row.createCell(1).setCellValue(v1.getOrganismName());
+            row.createCell(2).setCellValue(v1.getIsolate());
+            row.createCell(3).setCellValue(v1.getSpecies());
+            row.createCell(4).setCellValue(v1.getFamily());
+            row.createCell(5).setCellValue(v1.getLength());
+            row.createCell(6).setCellValue(v1.getSegment());
+            row.createCell(7).setCellValue(v1.getGeoLocation());
+            row.createCell(8).setCellValue(v1.getHost());
+            row.createCell(9).setCellValue(v1.getSequence());
+            row.createCell(10).setCellValue(v1.getVirusType());
+        }
+        // 设置响应头
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=virus_list_"+num+".xlsx");
+
+        // 将工作簿写入响应流
+        workbook.write(response.getOutputStream());
+        workbook.close();
+    }
+
     @GetMapping("/cas-to-excel")
     public void casExportToExcel(HttpServletResponse response, @RequestParam int virus_id,@RequestParam String type) throws IOException {
         // 创建一个新的工作簿
@@ -176,8 +266,8 @@ public class ExcelController {
         workbook.close();
     }
 
+
     @PostMapping("/software-to-excel")
-    @ApiOperation(notes = "以json形式传入从软件接口中获取的cas_result和name", value = "软件部分将结果转换为excel表格的接口")
     public void softwareExportToExcel(HttpServletResponse response, @RequestBody software_result s_result) throws IOException {
         // 创建一个新的工作簿
         Workbook workbook = new XSSFWorkbook();

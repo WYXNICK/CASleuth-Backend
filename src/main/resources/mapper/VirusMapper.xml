@@ -13,4 +13,10 @@
     <select id="selectAccession" resultType="string">
         select  accession from virus where virus_id=#{virusId}
     </select>
+    <select id="selectAllVirusByName" resultType="com.casleuth.casleuthbackend.entity.virus">
+        select  * from virus where organism_name like concat('%',#{name},'%')
+    </select>
+    <select id="selectSomeVirusByName" resultType="com.casleuth.casleuthbackend.entity.virus">
+        select  * from virus where organism_name like concat('%',#{name},'%') limit #{num}
+    </select>
 </mapper>
