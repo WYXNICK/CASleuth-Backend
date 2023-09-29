@@ -31,7 +31,6 @@ public class VirusController {
     @GetMapping("/page")
     @ApiOperation(notes = "name为病毒名称，pageNum为当前页数，pageSize为每页大小", value = "根据病毒名分页查询")
     public HashMap<String,Object> findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize, @RequestParam String name) {
-        pageNum=(pageNum-1)*pageSize;
         List<virus> virusList=virusService.selectPage(pageNum,pageSize,name);
         Integer total=virusService.selectTotalNum(name);
         HashMap<String,Object> result=new HashMap<>();

@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface VirusMapper {
-    List<virus> selectPage(Integer pageNum, Integer pageSize, String name);
+    List<virus> selectPage(Integer start, Integer pageSize, String name);
 
     Integer selectTotalNum(String name);
 

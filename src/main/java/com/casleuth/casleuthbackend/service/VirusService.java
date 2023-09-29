@@ -13,7 +13,8 @@ public class VirusService {
     @Autowired
     private VirusMapper virusMapper;
    public List selectPage(Integer pageNum, Integer pageSize, String name){
-       return virusMapper.selectPage(pageNum, pageSize, name);
+       Integer start=(pageNum-1)*pageSize;
+       return virusMapper.selectPage(start, pageSize, name);
    }
 
     public Integer selectTotalNum(String name) {
