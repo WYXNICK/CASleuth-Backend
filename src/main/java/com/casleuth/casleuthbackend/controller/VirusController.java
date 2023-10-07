@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/virus")
+@RequestMapping("/api/virus")
 public class VirusController {
 
     @Autowired

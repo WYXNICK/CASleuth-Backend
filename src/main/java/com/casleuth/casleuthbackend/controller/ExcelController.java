@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class ExcelController {
 
     @Autowired

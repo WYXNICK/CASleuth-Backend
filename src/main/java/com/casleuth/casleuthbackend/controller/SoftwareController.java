@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/software")
+@RequestMapping("/api/software")
 public class SoftwareController {
 
     @PostMapping("/upload")
@@ -131,7 +131,24 @@ public class SoftwareController {
                         // 分别处理每个部分
                         cas.put("guide_seq",parts[0]);
                         cas.put("index",parts[1]);
-                        cas.put("score",parts[2]);
+
+                        String original = parts[2]; // 原始字符串
+                        int desiredLength = 10; // 指定的位数
+
+                        // 如果原始字符串长度小于指定长度，使用零进行补齐
+                        if (original.length() < desiredLength) {
+                            StringBuilder sb = new StringBuilder(desiredLength);
+                            sb.append(original); // 添加原始字符串
+                            while (sb.length() < desiredLength) {
+                                sb.append('0'); // 补齐零
+                            }
+                            original = sb.toString();
+                        } else if (original.length() > desiredLength) {
+                            original = original.substring(0, desiredLength); // 截断到指定长度
+                        }
+
+                        cas.put("score", original); // 将处理后的字符串放入cas对象的score字段
+
                         cas.put("order",order);
                         order++;
                         int index = Integer.parseInt(parts[1]);
