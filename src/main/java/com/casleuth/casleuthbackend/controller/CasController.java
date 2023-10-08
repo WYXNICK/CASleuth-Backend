@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class CasController {
     public HashMap<String,Object> findAllSeq(@RequestParam int virus_id,@RequestParam String type){
         virus v1=virusService.selectVirusById(virus_id);
         String accession=v1.getAccession();
-        String sequence=v1.getSequence();
+        String sequence= v1.getSequence();
         List<cas_model> casList=new ArrayList<>();
         casList=casService.findAllSeq(accession,type);
         List<HashMap<String,Object>> casresult=new ArrayList<>();
@@ -53,7 +54,7 @@ public class CasController {
             cas1.put("order",order);
             cas1.put("model_type",type);
             int index = cas.getIndex();
-            if (index != -1) {
+            if (index <= sequence.length()) {
                 // 如果找到了子字符串
                 String beforeSeq = sequence.substring(0, index); // 获取子字符串之前的所有字符串
                 String showSeq=sequence.substring(index,index+cas.getGuideSeq().length());
@@ -64,7 +65,23 @@ public class CasController {
                 cas1.put("status",true);
                 cas1.put("percentage",(double)(beforeSeq.length())/(sequence.length()));
             } else {
-                cas1.put("status",false);
+                cas1.put("before_seq","...");
+                cas1.put("after_seq","...");
+
+                String show_seq;
+                if(cas.getModelType()=="cas12") {
+                    show_seq = cas.getGuideSeq()
+                            .replace('A', 'T')
+                            .replace('T', 'A')
+                            .replace('C', 'G')
+                            .replace('G', 'C');
+                }
+                else{
+                    show_seq= cas.getGuideSeq();
+                }
+                cas1.put("show_seq",show_seq);
+                cas1.put("percentage",(double)(index)/(v1.getLength()));
+                cas1.put("status",true);
             }
             casresult.add(cas1);
             order++;
