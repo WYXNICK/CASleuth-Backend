@@ -1,0 +1,8 @@
+# 示例代码
+
+python pipeline.py test.fna result.txt
+python pipeline.py test.txt result.txt
+
+# 环境
+
+torch 2.0.1 
