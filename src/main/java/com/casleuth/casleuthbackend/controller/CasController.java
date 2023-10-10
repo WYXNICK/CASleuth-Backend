@@ -63,7 +63,7 @@ public class CasController {
                 cas1.put("before_seq",beforeSeq);
                 cas1.put("after_seq",afterSeq);
                 cas1.put("status",true);
-                cas1.put("percentage",(double)(beforeSeq.length())/(sequence.length()));
+                cas1.put("percentage",(double)(index)/(v1.getLength()));
             } else {
                 cas1.put("before_seq","...");
                 cas1.put("after_seq","...");

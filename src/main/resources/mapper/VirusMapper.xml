@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.casleuth.casleuthbackend.mapper.VirusMapper">
     <select id="selectPage" resultType="com.casleuth.casleuthbackend.entity.virus">
-        select  * from virus where organism_name like concat('%',#{name},'%') limit #{start},#{pageSize}
+        select  * from virus where organism_name like concat('%',#{name},'%') OR accession like CONCAT('%', #{name}, '%')  limit #{start},#{pageSize}
     </select>
     <select id="selectTotalNum" resultType="int">
-        select  count(*) from virus where organism_name like concat('%',#{name},'%')
+        select  count(*) from virus where organism_name like concat('%',#{name},'%') OR accession like CONCAT('%', #{name}, '%')
     </select>
     <select id="selectVirusById" resultType="com.casleuth.casleuthbackend.entity.virus">
         select  * from virus where virus_id=#{virusId}
@@ -14,9 +14,9 @@
         select  accession from virus where virus_id=#{virusId}
     </select>
     <select id="selectAllVirusByName" resultType="com.casleuth.casleuthbackend.entity.virus">
-        select  * from virus where organism_name like concat('%',#{name},'%')
+        select  * from virus where organism_name like concat('%',#{name},'%') OR accession like CONCAT('%', #{name}, '%')
     </select>
     <select id="selectSomeVirusByName" resultType="com.casleuth.casleuthbackend.entity.virus">
-        select  * from virus where organism_name like concat('%',#{name},'%') limit #{num}
+        select  * from virus where organism_name like concat('%',#{name},'%') limit #{num} OR accession like CONCAT('%', #{name}, '%')
     </select>
 </mapper>
