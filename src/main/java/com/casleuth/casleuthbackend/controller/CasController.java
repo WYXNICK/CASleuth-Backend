@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/cas")
@@ -39,6 +36,15 @@ public class CasController {
         String sequence= v1.getSequence();
         List<cas_model> casList=new ArrayList<>();
         casList=casService.findAllSeq(accession,type);
+
+        // 使用匿名Comparator对casList进行按score降序排序
+        Collections.sort(casList, new Comparator<cas_model>() {
+            @Override
+            public int compare(cas_model cas1, cas_model cas2) {
+                return Double.compare(cas2.getScore(), cas1.getScore()); //降序排序
+            }
+        });
+
         List<HashMap<String,Object>> casresult=new ArrayList<>();
         HashMap<String,Object> result=new HashMap<>();
         result.put("accession",accession);
